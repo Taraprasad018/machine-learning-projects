@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PASSFORGE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<nav>
+  <h1 class="logo">PASSFORGE</h1>
+  <ul>
+    <li onclick="showPage('about')">About</li>
+    <li onclick="showPage('analyzer')">Analyzer</li>
+    <li onclick="showPage('generator')">Generator</li>
+    <li onclick="showPage('feedback')">Feedback</li>
+  </ul>
+</nav>
+
+<section id="about" class="page {% if active_tab == 'about' %}active{% endif %} about">
+  <h1 class="glitch">PassForge Password Generator and Analyzer</h1>
+
+  <div class="about-grid">
+    <div class="about-card">
+      <h3>🔓 How Cyber Crimes Happen</h3>
+      <p>
+        Most cyber crimes begin with weak or reused passwords. Attackers target
+        predictable credentials to gain unauthorized system access.
+      </p>
+    </div>
+
+    <div class="about-card">
+      <h3>⚠ Common Attack Techniques</h3>
+      <p>
+        Brute force attacks, dictionary attacks, credential stuffing, and leaked
+        database exploitation are widely used attack methods.
+      </p>
+    </div>
+
+    <div class="about-card highlight">
+      <h3>🛡 How PASSFORGE Protects</h3>
+      <p>
+        PASSFORGE prevents weak password usage by analyzing strength, entropy,
+        and leaked patterns in real-time.
+      </p>
+    </div>
+
+    <div class="about-card">
+      <h3>⚙ Security Techniques Used</h3>
+      <p>
+        Multi-rule validation, entropy estimation, attack-time simulation, and
+        cryptographic randomness.
+      </p>
+    </div>
+
+    <div class="about-card neon">
+      <h3>🎯 Why This Matters</h3>
+      <p>
+        Strengthening password habits significantly reduces real-world cyber
+        crime success rates.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ANALYZER -->
+<section id="analyzer" class="page {% if active_tab == 'analyzer' %}active{% endif %}">
+  <h1>Password Strength Analyzer</h1>
+
+  <form action="/check" method="POST">
+    <input type="password" name="password" id="password" placeholder="Enter Password" value="{{ checked_password or '' }}" required />
+    <button type="button" onclick="togglePwd()">Show / Hide</button>
+    <button type="submit">Check Strength</button>
+  </form>
+
+  {% if strength_result %}
+  <p id="strength-text" class="{% if strength_result == 'Weak Password' %}text-weak{% else %}text-strong{% endif %}">{{ strength_result }}</p>
+  {% endif %}
+
+  <ul class="rules">
+    <li id="rule-length">Minimum 10 characters</li>
+    <li id="rule-upper">Uppercase letter</li>
+    <li id="rule-number">Number</li>
+    <li id="rule-special">Special character</li>
+  </ul>
+</section>
+
+<!-- GENERATOR -->
+<section id="generator" class="page {% if active_tab == 'generator' %}active{% endif %}">
+  <h1>Secure Password Generator</h1>
+
+  <form action="/generate" method="POST">
+    <input type="text" name="name" placeholder="Name" value="{{ gen_name or '' }}" required />
+    <input type="text" name="word" placeholder="Favourite Word" value="{{ gen_word or '' }}" required />
+    <input type="number" name="number" placeholder="Favourite Number" value="{{ gen_number or '' }}" required />
+    
+    <button type="submit">Generate Password</button>
+  </form>
+
+  {% if generated_password %}
+  <p id="generated-password">{{ generated_password }}</p>
+  <button type="button" onclick="copyPassword()">Copy</button>
+  {% endif %}
+</section>
+
+<!-- FEEDBACK -->
+<section id="feedback" class="page {% if active_tab == 'feedback' %}active{% endif %}">
+  <h1>User Feedback</h1>
+  <input type="text" placeholder="Your Name" />
+  <textarea placeholder="Your Feedback"></textarea>
+  <button>Submit</button>
+</section>
+
+<footer>PASSFORGE | Cybersecurity Learning Project</footer>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
